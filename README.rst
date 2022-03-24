@@ -85,7 +85,9 @@ We'll move data into an OpenSearch cluster.
 
 3. Follow article `how to use OpenSearch connector <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/opensearch-sink.html>`_. In particular look at the example `which uses JSON schema <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/opensearch-sink.html#example-create-an-opensearch-sink-connector-on-a-topic-with-a-json-schema>`_ to transfer data.
 
-4. To help you, I've created an example of configuration. File `connector.json`, which is located in to root folder of this repository contains necessary parameters to connect to OpenSearch and send data. You only need to update OpenSearch connection information::
+4. To help you, I've created an example of configuration. File `connector.json`, which is located in to root folder of this repository contains necessary parameters to connect to OpenSearch and send data. You only need to update OpenSearch connection information:
+
+.. code::
 
   "connection.url": "https://openserahc-cluster-address:port",
   "connection.username": "your OpenSearch cluster login name",
