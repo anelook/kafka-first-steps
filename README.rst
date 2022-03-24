@@ -89,7 +89,7 @@ We'll move data into an OpenSearch cluster.
 
 .. code::
 
-  "connection.url": "https://openserahc-cluster-address:port",
+  "connection.url": "https://opensearch-cluster-address:port",
   "connection.username": "your OpenSearch cluster login name",
   "connection.password": "you OpenSearch cluster password",
 
