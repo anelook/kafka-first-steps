@@ -91,7 +91,7 @@ We'll move data into an OpenSearch cluster.
 
   "connection.url": "https://opensearch-cluster-address:port",
   "connection.username": "your OpenSearch cluster login name",
-  "connection.password": "you OpenSearch cluster password",
+  "connection.password": "your OpenSearch cluster password",
 
 License
 -------
