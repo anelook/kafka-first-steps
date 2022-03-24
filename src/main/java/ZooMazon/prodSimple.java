@@ -13,12 +13,12 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 import java.util.Random;
 
-public class producer {
+public class prodSimple {
     public static void main(String[] args) throws InterruptedException {
-        Logger logger = LoggerFactory.getLogger(producer.class);
+        Logger logger = LoggerFactory.getLogger(prodSimple.class);
         Dotenv dotenv = Dotenv.configure().load();
 
-        // where to define the properties
+        // connect to the cluster
         Properties properties = new Properties();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, dotenv.get("server"));
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -33,34 +33,38 @@ public class producer {
         properties.put("ssl.key.password", dotenv.get("ssl.key.password"));
 
         // create a producer
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
+        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-        String topicName = "user-activity";
+        String topicName = "customer-activity";
 
         while (true) {
+            // generate new message
             JSONObject message = generateMessage();
+
             // create a producer record
-            ProducerRecord<String, String> record = new ProducerRecord<String, String>(topicName, message.toString());
+            ProducerRecord<String, String> record = new ProducerRecord<>(topicName, message.toString());
+
             // send data
             producer.send(record);
             logger.info("Sent: " + message);
 
-            Thread.sleep(10000);
+            // pause before sending next message
+            Thread.sleep(1000);
         }
     }
 
     public static JSONObject generateMessage() {
-        JSONObject result = new JSONObject();
+        JSONObject message = new JSONObject();
         String[] operations = {"searched \uD83D\uDD0D", "bought ✅"};
         String[] customers = {"Judy Hopps\uD83D\uDC30", "Nick Wilde\uD83E\uDD8A", "Chief Bogo\uD83D\uDC03", "Officer Clawhauser\uD83D\uDE3C", "Mayor Lionheart \uD83E\uDD81", "Mr. Big \uD83E\uDE91", "Fru Fru\uD83D\uDC90"};
         String[] products = {"Donut \uD83C\uDF69 ", "Carrot \uD83E\uDD55", "Tie \uD83D\uDC54", "Glasses \uD83D\uDC53️", "Phone ☎️", "Ice cream \uD83C\uDF68", "Dress \uD83D\uDC57", "Pineapple pizza \uD83C\uDF55"};
 
+        // randomly assign values
         Random randomizer = new Random();
+        message.put("customer", customers[randomizer.nextInt(7)]);
+        message.put("product", products[randomizer.nextInt(7)]);
+        message.put("operation", operations[randomizer.nextInt(30) < 25 ? 0 : 1]); // a very sophisticated weighted randomizer to prefer 'search' over 'bought'
 
-        result.put("customer", customers[randomizer.nextInt(7)]);
-        result.put("product", products[randomizer.nextInt(7)]);
-        result.put("operation", operations[randomizer.nextInt(30) < 25 ? 0 : 1]); // a very sophisticated weighted randomizer to prefer search over bought
-
-        return result;
+        return message;
     }
 }
