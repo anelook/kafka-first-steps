@@ -36,13 +36,12 @@ public class consSimple {
 
         //create consumer
         KafkaConsumer<String,String> consumer = new KafkaConsumer<>(properties);
-
         String topic = "customer-activity";
 
         //subscribe consumer to our topics
         consumer.subscribe(Collections.singleton(topic));
 
-        // poll for new data
+        // poll new data
         while(true) {
             ConsumerRecords<String,String> records = consumer.poll(Duration.ofMillis(100));
 

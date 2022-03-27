@@ -36,7 +36,6 @@ public class consPartitions {
 
         //create consumer
         KafkaConsumer<String,String> consumer = new KafkaConsumer<>(properties);
-
         String topic = "customer-activity";
 
         //subscribe consumer to our topics
@@ -47,7 +46,9 @@ public class consPartitions {
             ConsumerRecords<String,String> records = consumer.poll(Duration.ofMillis(100));
 
             for (ConsumerRecord<String,String> record : records) {
-                logger.info("partition " + record.partition() + "| offset " + record.offset() + "| " + record.value() );
+                logger.info("partition " + record.partition() +
+                        "| offset " + record.offset() +
+                        "| " + record.value() );
             }
         }
     }
