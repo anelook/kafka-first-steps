@@ -95,10 +95,10 @@ We'll move data into an OpenSearch cluster.
 
 Resources and additional materials
 ----------------------------------
-1. `Fake data generator <https://developer.aiven.io/docs/products/kafka/howto/fake-sample-data.html>`_ for Apache Kafka
+1. `A ready fake data generator <https://developer.aiven.io/docs/products/kafka/howto/fake-sample-data.html>`_ to source data into Apache Kafka cluster.
 2. `How to use kcat <https://developer.aiven.io/docs/products/kafka/howto/kcat.html>`_. A very handy utility to work with Apache Kafka from command line.
 3. `How to use Karapace schema registry <https://aiven.io/blog/what-is-karapace>`_ to align the structure of data coming to Kafka cluster.
-4. Find more examples `how to use Apache Kafka® Connect as streaming bridge between different database technologies <https://aiven.io/blog/db-technology-migration-with-apache-kafka-and-kafka-connect>`_.
+4. `How to use Apache Kafka Connect as streaming bridge between different database technologies <https://aiven.io/blog/db-technology-migration-with-apache-kafka-and-kafka-connect>`_.
 
 License
 -------
