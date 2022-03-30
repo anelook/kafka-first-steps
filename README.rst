@@ -99,6 +99,7 @@ Resources and additional materials
 2. `How to use kcat <https://developer.aiven.io/docs/products/kafka/howto/kcat.html>`_. A very handy utility to work with Apache Kafka from command line.
 3. `How to use Karapace schema registry <https://aiven.io/blog/what-is-karapace>`_ to align the structure of data coming to Kafka cluster.
 4. `How to use Apache Kafka Connect as streaming bridge between different database technologies <https://aiven.io/blog/db-technology-migration-with-apache-kafka-and-kafka-connect>`_.
+5. `Intro into Kafka Streams <https://kafka.apache.org/documentation/streams/>`_ .
 
 License
 -------
