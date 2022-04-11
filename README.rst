@@ -1,18 +1,18 @@
 Hands-on material for session "Apache Kafka simply explained" (Java version)
 ============================================================================
 
-Hello all! This repository contains a set of short exercises to get familiar with Apache Kafka. You'll need to do couple of set up steps and then you can run examples of producers and consumers that I've preapared for you.
+Hello all! This repository contains a set of short exercises to get familiar with Apache Kafka. You'll need to do couple of setup steps and then you can run examples of producers and consumers that I've preapared for you.
 
 Preparation steps
 ------------------
 
-1. You'll need an Apache Kafka cluster. Apache Kafka is an open source platform, so you can either `set it up from its source code <https://kafka.apache.org/quickstart#quickstart_download>`_ or use a fully managed option, for  this experiments you can use a free trial of `Aiven for Apache Kafka <https://aiven.io/kafka>`_(Disclaimer for transparency - I work at Aiven 🙂). I'll be using the latter option.
+1. You'll need an Apache Kafka cluster. Apache Kafka is an open source platform, so you can either `set it up and run from its source code <https://kafka.apache.org/quickstart#quickstart_download>`_ or use a fully managed option, for  this experiments you can use a free trial of `Aiven for Apache Kafka <https://aiven.io/kafka>`_ (Disclaimer for transparency - I work at Aiven 🙂). I'll be using the latter option.
 
-2. Clone this repository and install the dependencies from `pom.xml`.
+2. Clone this repository and install the dependencies from **pom.xml**.
 
 3. To connect to the remote Apache Kafka cluster we need to set up SSL configuration. Follow `these steps <https://developer.aiven.io/docs/products/kafka/howto/keystore-truststore.html>`_ to create keystore and truststore based on the  Access Key, Access Certificate and CA Certificate.
 
-4. Copy .env.example, rename to .env and update it with information about the location of truststore and keystore files and their passwords. You'll have something similar to the content below (just don't use 'password' as password ;)):
+4. Copy .env.example, rename to .env and update it with information about the location of truststore and keystore files and their passwords. You'll have something similar to the content below (just don't use 'password' as password 😉):
 
 .. code::
 
@@ -24,13 +24,13 @@ Preparation steps
     ssl.keystore.password="password"
     ssl.key.password="password"
 
-5. In your cluster create a topic, for example for Aiven's managed version you can use the UI ` directly from the console <https://developer.aiven.io/docs/products/kafka/howto/create-topic.html>`_ 'customer-activity' with 3 partitions.
+5. In your cluster create a topic with the name *customer-activity* that contains 3 partitions, for example for Aiven's managed version you can use the UI and create a topic `directly from the console <https://developer.aiven.io/docs/products/kafka/howto/create-topic.html>`_.
 
 Now you're ready for demo exercises. In these demos we'll focus on a single topic that contains events based on customer activity in an online shop.
 
 Demo # 1: create a producer and a consumer
 -----------------------------------------------
-In this demo we'll look at a simple producer, that will send messages to the Kafka cluster; and a simple consumer that will read messages and print out their content.
+In this demo we'll look at a simple producer. This producer will send messages to the Kafka cluster; and a simple consumer will read messages and print out their content.
 
 1. Open the Java file ``ZooMazon.prodSimple`` - this is an example of a very simple producer. It generates a random message every second and sends it into the cluster. Run the method ``main`` to start the producer.
 2. If the configuration is set up correctly, you'll see output similar to this:
@@ -97,11 +97,14 @@ In this example we'll move data (sink data) into an OpenSearch cluster.
 
 Resources and additional materials
 ----------------------------------
-1. `A ready fake data generator <https://developer.aiven.io/docs/products/kafka/howto/fake-sample-data.html>`_ to source data into Apache Kafka cluster.
-2. `How to use kcat <https://developer.aiven.io/docs/products/kafka/howto/kcat.html>`_. A very handy utility to work with Apache Kafka from command line.
-3. `How to use Karapace schema registry <https://aiven.io/blog/what-is-karapace>`_ to align the structure of data coming to Kafka cluster.
-4. `How to use Apache Kafka Connect as streaming bridge between different database technologies <https://aiven.io/blog/db-technology-migration-with-apache-kafka-and-kafka-connect>`_.
-5. `Intro into Kafka Streams <https://kafka.apache.org/documentation/streams/>`_ .
+#. `Official docs for Apache Kafka <https://kafka.apache.org/>`_.
+#. `Official docs for Apache Kafka Connect API <https://kafka.apache.org/documentation/#connect>`_.
+#. `Official docs for Apache Kafka Streams <https://kafka.apache.org/documentation/streams/>`_.
+#. `A ready fake data generator <https://developer.aiven.io/docs/products/kafka/howto/fake-sample-data.html>`_ to source data into Apache Kafka cluster.
+#. `How to use kcat <https://developer.aiven.io/docs/products/kafka/howto/kcat.html>`_. A very handy utility to work with Apache Kafka from command line.
+#. `How to use Karapace schema registry <https://aiven.io/blog/what-is-karapace>`_ to align the structure of data coming to Kafka cluster.
+#. `How to use Apache Kafka Connect as streaming bridge between different database technologies <https://aiven.io/blog/db-technology-migration-with-apache-kafka-and-kafka-connect>`_.
+#. `Intro into Kafka Streams <https://kafka.apache.org/documentation/streams/>`_ .
 
 License
 -------
