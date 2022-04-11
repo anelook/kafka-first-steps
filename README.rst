@@ -1,16 +1,18 @@
 Hands-on material for session "Apache Kafka simply explained" (Java version)
 ============================================================================
 
-Running locally
----------------
+Hello all! This repository contains a set of short exercises to get familiar with Apache Kafka. You'll need to do couple of set up steps and then you can run examples of producers and consumers that I've preapared for you.
 
-1. We'll need an Apache Kafka cluster. Apache Kafka is an open source platform, so you can either `set it up from its source code <https://kafka.apache.org/quickstart#quickstart_download>`_ or use a fully managed option, for example sign up for  `30 day free trial with Aiven <https://aiven.io/kafka>`_. I'll be using the latter option.
+Preparation steps
+------------------
+
+1. You'll need an Apache Kafka cluster. Apache Kafka is an open source platform, so you can either `set it up from its source code <https://kafka.apache.org/quickstart#quickstart_download>`_ or use a fully managed option, for  this experiments you can use a free trial of `Aiven for Apache Kafka <https://aiven.io/kafka>`_(Disclaimer for transparency - I work at Aiven 🙂). I'll be using the latter option.
 
 2. Clone this repository and install the dependencies from `pom.xml`.
 
 3. To connect to the remote Apache Kafka cluster we need to set up SSL configuration. Follow `these steps <https://developer.aiven.io/docs/products/kafka/howto/keystore-truststore.html>`_ to create keystore and truststore based on the  Access Key, Access Certificate and CA Certificate.
 
-4. Copy .env.example, rename to .env and update it with information about truststore and keystore and their passwords. You'll have something similar to the content below (just don't use 'password' as password ;)):
+4. Copy .env.example, rename to .env and update it with information about the location of truststore and keystore files and their passwords. You'll have something similar to the content below (just don't use 'password' as password ;)):
 
 .. code::
 
@@ -22,7 +24,7 @@ Running locally
     ssl.keystore.password="password"
     ssl.key.password="password"
 
-5. In your cluster `create a topic <https://developer.aiven.io/docs/products/kafka/howto/create-topic.html>`_ 'customer-activity' with 3 partitions.
+5. In your cluster create a topic, for example for Aiven's managed version you can use the UI ` directly from the console <https://developer.aiven.io/docs/products/kafka/howto/create-topic.html>`_ 'customer-activity' with 3 partitions.
 
 Now you're ready for demo exercises. In these demos we'll focus on a single topic that contains events based on customer activity in an online shop.
 
@@ -30,7 +32,7 @@ Demo # 1: create a producer and a consumer
 -----------------------------------------------
 In this demo we'll look at a simple producer, that will send messages to the Kafka cluster; and a simple consumer that will read messages and print out their content.
 
-1. Open Java file ``ZooMazon.prodSimple`` - a very simple producer. It creates a message every second and  sends it into the cluster. Run the method ``main`` to start the producer.
+1. Open the Java file ``ZooMazon.prodSimple`` - this is an example of a very simple producer. It generates a random message every second and sends it into the cluster. Run the method ``main`` to start the producer.
 2. If the configuration is set up correctly, you'll see output similar to this:
 
 .. code::
@@ -60,15 +62,15 @@ Demo # 2: observe how messages are spreaded across partitions
 In this demo we'll look at partitions and offsets.
 
 1. You should have the producer ``ZooMazon.prodSimple`` already running.
-2. Start ``ZooMazon.consPartitions``, this is our consumer, in addition to the message body, it outputs information about partitions and offsets for every partition.
-3. Also, try out the consumer ``ZooMazon.consFiltered`` which outputs results for a single customer. You can see that currently the messages that are related to a single customer are spread across all partitions.
+2. Start ``ZooMazon.consPartitions``, this is a consumer, where in addition to the message body, we output information about partitions and offsets for every message.
+3. Also, try running another consumer ``ZooMazon.consFiltered`` which outputs results for a single customer. You can see that currently the messages that are related to a single customer are spread across all partitions.
 4. Terminate the producers and consumers that are running.
 
 Demo # 3: add keys to messages
 ------------------------------------
-When observing the consumer output you can see that messages are spread across partitions in a roundabout way.
-Apache Kafka guarantees order only within a partition, so in some situations we want to control how messages are divided between partitions.
-This can be done by assigning keys to the messages.
+When looking at the consumer output you can see that messages are spread across partitions in some random way.
+It is important to understand that Apache Kafka guarantees order only within a partition. This means that if we want to preserve message orders coming from our customers we need to write all messages related to a single customer into the same partition.
+This can be done by assigning keys to the messages. All messages with the same key will be added to the same partition.
 
 1. Run ``ZooMazon.prodKeys``, this producer uses customer name as key for a message.
 2. Run ``ZooMazon.consPartitions`` and ``ZooMazon.consFiltered``. Observe that messages related to specific customers consistently fall into the same partitions.
@@ -76,16 +78,16 @@ This can be done by assigning keys to the messages.
 Demo # 4: use a sink connector
 ------------------------------------
 
-In the last demo we'll demonstrate how you can move data from Apache Kafka topic into another data store with the help of a connector.
-We'll move data into an OpenSearch cluster.
+In the last demo we'll demonstrate how you can use Apache Kafka connectors to move data from Apache Kafka topic into another data store.
+In this example we'll move data (sink data) into an OpenSearch cluster.
 
 1. You'll need an OpenSearch cluster. Either `set it up from source code <https://opensearch.org/downloads.html#docker-compose>`_ or use a managed option, such as `Aiven for OpenSearch <https://aiven.io/opensearch>`_.
 
-2. `Enable Apache Kafka Connect <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/enable-connect.html>`_.
+2. Either set it up `manually <https://kafka.apache.org/documentation/#connect_running>`_ or enable Apache Kafka Connect in the managed version, for example this is how to do so `in Aiven for Apache Kafka <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/enable-connect.html>`_.
 
-3. Follow article `how to use OpenSearch connector <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/opensearch-sink.html>`_. In particular look at the example `which uses JSON schema <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/opensearch-sink.html#example-create-an-opensearch-sink-connector-on-a-topic-with-a-json-schema>`_ to transfer data.
+3. You'll need to create a configuration file to be used by the connector. Follow this article `how to use OpenSearch connector <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/opensearch-sink.html>`_. In particular look at the example `which uses JSON schema <https://developer.aiven.io/docs/products/kafka/kafka-connect/howto/opensearch-sink.html#example-create-an-opensearch-sink-connector-on-a-topic-with-a-json-schema>`_ to transfer data.
 
-4. To help you, I've created an example of configuration. File `connector.json`, which is located in to root folder of this repository contains necessary parameters to connect to OpenSearch and send data. You only need to update OpenSearch connection information:
+4. To help you, I've created an example of configuration. File `connector.json`, which is located in the root folder of this repository contains necessary parameters to connect to OpenSearch and send data. You only need to update OpenSearch connection information:
 
 .. code::
 
