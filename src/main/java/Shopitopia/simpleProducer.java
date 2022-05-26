@@ -38,13 +38,13 @@ public class simpleProducer {
 
         // create a producer
 
-            // generate new message
+        // generate new message
 
-            // create a producer record
+        // create a producer record
 
-            // send data
+        // send data
 
-            // pause before sending next message
+        // pause before sending next message
 
 
 
