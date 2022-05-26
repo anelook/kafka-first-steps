@@ -1,4 +1,4 @@
-package ZooMazon;
+package Shopitopia;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -13,9 +13,9 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-public class consPartitions {
+public class consSimple {
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(consPartitions.class.getName());
+        Logger logger = LoggerFactory.getLogger(consSimple.class.getName());
         Dotenv dotenv = Dotenv.configure().load();
 
         // connect to the cluster
@@ -23,7 +23,7 @@ public class consPartitions {
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, dotenv.get("server"));
         properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, "partitions");
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, "simple");
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); //earliest/latest/none
 
         properties.put("security.protocol", "SSL");
@@ -41,14 +41,12 @@ public class consPartitions {
         //subscribe consumer to our topics
         consumer.subscribe(Collections.singleton(topic));
 
-        // poll for new data
+        // poll new data
         while(true) {
             ConsumerRecords<String,String> records = consumer.poll(Duration.ofMillis(100));
 
             for (ConsumerRecord<String,String> record : records) {
-                logger.info("partition " + record.partition() +
-                        "| offset " + record.offset() +
-                        "| " + record.value() );
+                logger.info("message " + record.value());
             }
         }
     }

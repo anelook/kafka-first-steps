@@ -1,4 +1,4 @@
-package ZooMazon;
+package Shopitopia;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 import java.util.Random;
 
-public class prodKeys {
+public class prodOpenSearch {
     public static void main(String[] args) throws InterruptedException {
-        Logger logger = LoggerFactory.getLogger(prodKeys.class);
+        Logger logger = LoggerFactory.getLogger(prodOpenSearch.class);
         Dotenv dotenv = Dotenv.configure().load();
 
         // connect to the cluster
@@ -35,14 +35,14 @@ public class prodKeys {
         // create a producer
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-        String topicName = "customer-activity";
+        String topicName = "customer-activity-opensearch";
 
         while (true) {
             // generate new message
             JSONObject message = generateMessage();
 
             // create a producer record
-            String key = message.get("customer").toString();
+            String key = String.valueOf(System.currentTimeMillis()); // use time of event as a key
             String value = message.toString();
             ProducerRecord<String, String> record = new ProducerRecord<>(topicName, key, value);
 

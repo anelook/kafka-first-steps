@@ -32,7 +32,7 @@ Demo # 1: create a producer and a consumer
 -----------------------------------------------
 In this demo we'll look at a simple producer. This producer will send messages to the Kafka cluster; and a simple consumer will read messages and print out their content.
 
-1. Open the Java file ``ZooMazon.prodSimple`` - this is an example of a very simple producer. It generates a random message every second and sends it into the cluster. Run the method ``main`` to start the producer.
+1. Open Java file ``Shopitopia.simpleProducer`` - a very simple producer. It creates a message every second and  sends it into the cluster. Run the method ``main`` to start the producer.
 2. If the configuration is set up correctly, you'll see output similar to this:
 
 .. code::
@@ -41,29 +41,29 @@ In this demo we'll look at a simple producer. This producer will send messages t
     [main] INFO org.apache.kafka.common.utils.AppInfoParser - Kafka commitId: 8cb0a5e9d3441999
     [main] INFO org.apache.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1648141938679
     [kafka-producer-network-thread | producer-1] INFO org.apache.kafka.clients.Metadata - [Producer clientId=producer-1] Cluster ID: 7iPfsgbgGAqgwQ5XsIL9ng
-    [main] INFO ZooMazon.prodSimple - Sent: {"product":"Dress 👗","operation":"searched 🔍","customer":"Chief Bogo🐃"}
-    [main] INFO ZooMazon.prodSimple - Sent: {"product":"Tie 👔","operation":"searched 🔍","customer":"Officer Clawhauser😼"}
-    [main] INFO ZooMazon.prodSimple - Sent: {"product":"Tie 👔","operation":"bought ✅","customer":"Fru Fru💐"}
-    [main] INFO ZooMazon.prodSimple - Sent: {"product":"Donut 🍩 ","operation":"searched 🔍","customer":"Mr. Big 🪑"}
-    [main] INFO ZooMazon.prodSimple - Sent: {"product":"Donut 🍩 ","operation":"searched 🔍","customer":"Nick Wilde🦊"}
+    [main] INFO Shopitopia.simpleProducer - Sent: {"product":"Dress 👗","operation":"searched 🔍","customer":"Chief Bogo🐃"}
+    [main] INFO Shopitopia.simpleProducer - Sent: {"product":"Tie 👔","operation":"searched 🔍","customer":"Officer Clawhauser😼"}
+    [main] INFO Shopitopia.simpleProducer - Sent: {"product":"Tie 👔","operation":"bought ✅","customer":"Fru Fru💐"}
+    [main] INFO Shopitopia.simpleProducer - Sent: {"product":"Donut 🍩 ","operation":"searched 🔍","customer":"Mr. Big 🪑"}
+    [main] INFO Shopitopia.simpleProducer - Sent: {"product":"Donut 🍩 ","operation":"searched 🔍","customer":"Nick Wilde🦊"}
 
-3. While producer creates new messages, open Java file ``ZooMazon.consSimple`` and run its method ``main`` to start the consumer. Consumer will connect to the cluster and read messages added by producer. You will see detailed information about connection to the cluster and once the connection is established the received messages:
+3. While producer creates new messages, open Java file ``Shopitopia.consSimple`` and run its method ``main`` to start the consumer. Consumer will connect to the cluster and read messages added by producer. You will see detailed information about connection to the cluster and once the connection is established the received messages:
 
 .. code::
 
     [main] INFO org.apache.kafka.clients.consumer.internals.SubscriptionState - [Consumer clientId=consumer-first-1, groupId=first] Resetting offset for partition customer-activity-1 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[35.228.93.149:12693 (id: 29 rack: null)], epoch=0}}.
-    [main] INFO ZooMazon.consSimple - message {"product":"Carrot 🥕","operation":"bought ✅","customer":"Mr. Big 🪑"}
-    [main] INFO ZooMazon.consSimple - message {"product":"Dress 👗","operation":"bought ✅","customer":"Mr. Big 🪑"}
+    [main] INFO Shopitopia.consSimple - message {"product":"Carrot 🥕","operation":"bought ✅","customer":"Mr. Big 🪑"}
+    [main] INFO Shopitopia.consSimple - message {"product":"Dress 👗","operation":"bought ✅","customer":"Mr. Big 🪑"}
 
-3. Observe the results. Once you're done, terminate the consumer ``ZooMazon.consSimple``, but leave the producer, we'll use it in the next demo.
+3. Observe the results. Once you're done, terminate the consumer ``Shopitopia.consSimple``, but leave the producer, we'll use it in the next demo.
 
 Demo # 2: observe how messages are spreaded across partitions
 --------------------------------------------------------------------
 In this demo we'll look at partitions and offsets.
 
-1. You should have the producer ``ZooMazon.prodSimple`` already running.
-2. Start ``ZooMazon.consPartitions``, this is a consumer, where in addition to the message body, we output information about partitions and offsets for every message.
-3. Also, try running another consumer ``ZooMazon.consFiltered`` which outputs results for a single customer. You can see that currently the messages that are related to a single customer are spread across all partitions.
+1. You should have the producer ``Shopitopia.simpleProducer`` already running.
+2. Start ``Shopitopia.consPartitions``, this is our consumer, in addition to the message body, it outputs information about partitions and offsets for every partition.
+3. Also, try out the consumer ``Shopitopia.consFiltered`` which outputs results for a single customer. You can see that currently the messages that are related to a single customer are spread across all partitions.
 4. Terminate the producers and consumers that are running.
 
 Demo # 3: add keys to messages
@@ -72,8 +72,8 @@ When looking at the consumer output you can see that messages are spread across 
 It is important to understand that Apache Kafka guarantees order only within a partition. This means that if we want to preserve message orders coming from our customers we need to write all messages related to a single customer into the same partition.
 This can be done by assigning keys to the messages. All messages with the same key will be added to the same partition.
 
-1. Run ``ZooMazon.prodKeys``, this producer uses customer name as key for a message.
-2. Run ``ZooMazon.consPartitions`` and ``ZooMazon.consFiltered``. Observe that messages related to specific customers consistently fall into the same partitions.
+1. Run ``Shopitopia.prodKeys``, this producer uses customer name as key for a message.
+2. Run ``Shopitopia.consPartitions`` and ``Shopitopia.consFiltered``. Observe that messages related to specific customers consistently fall into the same partitions.
 
 Demo # 4: use a sink connector
 ------------------------------------

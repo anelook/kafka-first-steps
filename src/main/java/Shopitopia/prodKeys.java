@@ -1,6 +1,6 @@
-package ZooMazon;
-import io.github.cdimascio.dotenv.Dotenv;
+package Shopitopia;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -13,21 +13,17 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 import java.util.Random;
 
-public class prodSimple {
+public class prodKeys {
     public static void main(String[] args) throws InterruptedException {
-        Logger logger = LoggerFactory.getLogger(prodSimple.class);
+        Logger logger = LoggerFactory.getLogger(prodKeys.class);
         Dotenv dotenv = Dotenv.configure().load();
 
         // connect to the cluster
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                dotenv.get("server"));
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class.getName());
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, dotenv.get("server"));
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        // set up security protocols
         properties.put("security.protocol", "SSL");
         properties.put("ssl.truststore.location", dotenv.get("ssl.truststore.location"));
         properties.put("ssl.truststore.password", dotenv.get("ssl.truststore.password"));
@@ -38,6 +34,7 @@ public class prodSimple {
 
         // create a producer
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
+
         String topicName = "customer-activity";
 
         while (true) {
@@ -45,7 +42,9 @@ public class prodSimple {
             JSONObject message = generateMessage();
 
             // create a producer record
-            ProducerRecord<String, String> record = new ProducerRecord<>(topicName, message.toString());
+            String key = message.get("customer").toString();
+            String value = message.toString();
+            ProducerRecord<String, String> record = new ProducerRecord<>(topicName, key, value);
 
             // send data
             producer.send(record);

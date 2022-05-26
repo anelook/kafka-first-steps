@@ -1,4 +1,4 @@
-package ZooMazon;
+package Shopitopia;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

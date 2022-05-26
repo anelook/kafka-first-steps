@@ -1,6 +1,6 @@
-package ZooMazon;
-
+package Shopitopia;
 import io.github.cdimascio.dotenv.Dotenv;
+
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -12,19 +12,22 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.Random;
-import java.time.Instant;
 
-public class prodOpenSearch {
+public class simpleProducer {
     public static void main(String[] args) throws InterruptedException {
-        Logger logger = LoggerFactory.getLogger(prodOpenSearch.class);
+        Logger logger = LoggerFactory.getLogger(simpleProducer.class);
         Dotenv dotenv = Dotenv.configure().load();
 
         // connect to the cluster
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, dotenv.get("server"));
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                dotenv.get("server"));
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class.getName());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class.getName());
 
+        // set up security protocols
         properties.put("security.protocol", "SSL");
         properties.put("ssl.truststore.location", dotenv.get("ssl.truststore.location"));
         properties.put("ssl.truststore.password", dotenv.get("ssl.truststore.password"));
@@ -34,27 +37,26 @@ public class prodOpenSearch {
         properties.put("ssl.key.password", dotenv.get("ssl.key.password"));
 
         // create a producer
-        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-        String topicName = "customer-activity-opensearch";
-
-        while (true) {
             // generate new message
-            JSONObject message = generateMessage();
 
             // create a producer record
-            String key = String.valueOf(System.currentTimeMillis()); // use time of event as a key
-            String value = message.toString();
-            ProducerRecord<String, String> record = new ProducerRecord<>(topicName, key, value);
 
             // send data
-            producer.send(record);
-            logger.info("Sent: " + message);
 
             // pause before sending next message
-            Thread.sleep(1000);
-        }
     }
+
+
+
+
+
+
+
+
+
+
+
 
     public static JSONObject generateMessage() {
         JSONObject message = new JSONObject();
