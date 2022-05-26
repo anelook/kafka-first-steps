@@ -36,15 +36,17 @@ public class simpleProducer {
         properties.put("ssl.keystore.password",dotenv.get("ssl.keystore.password"));
         properties.put("ssl.key.password", dotenv.get("ssl.key.password"));
 
-        // create a producer
+        // step # 1 create a producer
 
-        // generate new message
+        // step # 2 generate new message
 
-        // create a producer record
+        // step # 3 create a producer record
 
-        // send data
+        // step # 4 send data
 
-        // pause before sending next message
+        // repeat
+
+
 
 
 
