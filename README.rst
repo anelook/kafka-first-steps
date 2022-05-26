@@ -47,15 +47,15 @@ In this demo we'll look at a simple producer. This producer will send messages t
     [main] INFO Shopitopia.simpleProducer - Sent: {"product":"Donut 🍩 ","operation":"searched 🔍","customer":"Mr. Big 🪑"}
     [main] INFO Shopitopia.simpleProducer - Sent: {"product":"Donut 🍩 ","operation":"searched 🔍","customer":"Nick Wilde🦊"}
 
-3. While producer creates new messages, open Java file ``Shopitopia.consSimple`` and run its method ``main`` to start the consumer. Consumer will connect to the cluster and read messages added by producer. You will see detailed information about connection to the cluster and once the connection is established the received messages:
+3. While producer creates new messages, open Java file ``Shopitopia.simpleConsumer`` and run its method ``main`` to start the consumer. Consumer will connect to the cluster and read messages added by producer. You will see detailed information about connection to the cluster and once the connection is established the received messages:
 
 .. code::
 
     [main] INFO org.apache.kafka.clients.consumer.internals.SubscriptionState - [Consumer clientId=consumer-first-1, groupId=first] Resetting offset for partition customer-activity-1 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[35.228.93.149:12693 (id: 29 rack: null)], epoch=0}}.
-    [main] INFO Shopitopia.consSimple - message {"product":"Carrot 🥕","operation":"bought ✅","customer":"Mr. Big 🪑"}
-    [main] INFO Shopitopia.consSimple - message {"product":"Dress 👗","operation":"bought ✅","customer":"Mr. Big 🪑"}
+    [main] INFO Shopitopia.simpleConsumer - message {"product":"Carrot 🥕","operation":"bought ✅","customer":"Mr. Big 🪑"}
+    [main] INFO Shopitopia.simpleConsumer - message {"product":"Dress 👗","operation":"bought ✅","customer":"Mr. Big 🪑"}
 
-3. Observe the results. Once you're done, terminate the consumer ``Shopitopia.consSimple``, but leave the producer, we'll use it in the next demo.
+3. Observe the results. Once you're done, terminate the consumer ``Shopitopia.simpleConsumer``, but leave the producer, we'll use it in the next demo.
 
 Demo # 2: observe how messages are spreaded across partitions
 --------------------------------------------------------------------

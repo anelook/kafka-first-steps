@@ -13,9 +13,9 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-public class consSimple {
+public class simpleConsumer {
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(consSimple.class.getName());
+        Logger logger = LoggerFactory.getLogger(simpleConsumer.class.getName());
         Dotenv dotenv = Dotenv.configure().load();
 
         // connect to the cluster
@@ -34,19 +34,19 @@ public class consSimple {
         properties.put("ssl.keystore.password", dotenv.get("ssl.keystore.password"));
         properties.put("ssl.key.password", dotenv.get("ssl.key.password"));
 
-        //create consumer
-        KafkaConsumer<String,String> consumer = new KafkaConsumer<>(properties);
-        String topic = "customer-activity";
-
-        //subscribe consumer to our topics
-        consumer.subscribe(Collections.singleton(topic));
-
-        // poll new data
-        while(true) {
-            ConsumerRecords<String,String> records = consumer.poll(Duration.ofMillis(100));
-
-            for (ConsumerRecord<String,String> record : records) {
-                logger.info("message " + record.value());
+        // step # 1 create consumer
+        KafkaConsumer<String,String> consumer =
+                new KafkaConsumer<String, String>(properties);
+        String topicName = "customer-activity";
+        // step # 2 subscribe consumer to our topics
+        consumer.subscribe(Collections.singleton(topicName));
+        while (true) {
+            // step # 3 poll new data
+            ConsumerRecords<String, String> records =
+                    consumer.poll(Duration.ofMillis(100));
+            // step # 4 process new data
+            for (ConsumerRecord<String, String> record : records) {
+                logger.info("message: " + record.value());
             }
         }
     }
