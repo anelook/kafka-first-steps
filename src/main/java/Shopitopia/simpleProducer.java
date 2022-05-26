@@ -37,39 +37,24 @@ public class simpleProducer {
         properties.put("ssl.key.password", dotenv.get("ssl.key.password"));
 
         // step # 1 create a producer
+        KafkaProducer<String,String> producer =
+                new KafkaProducer<String, String>(properties);
+        String topicName = "customer-activity";
+        while(true) {
+            // step # 2 generate new message
+            JSONObject message = generateMessage();
 
-        // step # 2 generate new message
+            // step # 3 create a producer record
+            ProducerRecord<String, String> record =
+                    new ProducerRecord<>(topicName, message.toString());
 
-        // step # 3 create a producer record
-
-        // step # 4 send data
-
-        // repeat
-
-
-
-
-
-
-
-
-
-
-
-
+            // step # 4 send data
+            producer.send(record);
+            logger.info("Sent: " + message);
+            Thread.sleep(1000);
+        }
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public static JSONObject generateMessage() {
         JSONObject message = new JSONObject();
