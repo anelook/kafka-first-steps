@@ -32,7 +32,7 @@ Demo # 1: create a producer and a consumer
 -----------------------------------------------
 In this demo we'll look at a simple producer. This producer will send messages to the Kafka cluster; and a simple consumer will read messages and print out their content.
 
-1. Open Java file ``Shopitopia.simpleProducer`` - a very simple producer. It creates a message every second and  sends it into the cluster. Run the method ``main`` to start the producer.
+1. Open the Java file ``Shopitopia.simpleProducer`` - this is an example of a very simple producer. It generates a random message every second and sends it into the cluster. Run the method ``main`` to start the producer.
 2. If the configuration is set up correctly, you'll see output similar to this:
 
 .. code::
@@ -62,7 +62,7 @@ Demo # 2: observe how messages are spreaded across partitions
 In this demo we'll look at partitions and offsets.
 
 1. You should have the producer ``Shopitopia.simpleProducer`` already running.
-2. Start ``Shopitopia.consPartitions``, this is our consumer, in addition to the message body, it outputs information about partitions and offsets for every partition.
+2. Start ``Shopitopia.consPartitions``, this is a consumer, where in addition to the message body, we output information about partitions and offsets for every message.
 3. Also, try out the consumer ``Shopitopia.consFiltered`` which outputs results for a single customer. You can see that currently the messages that are related to a single customer are spread across all partitions.
 4. Terminate the producers and consumers that are running.
 
